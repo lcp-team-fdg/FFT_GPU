@@ -16,6 +16,7 @@ import seaborn as sns
 import csv
 import socket
 import sys
+import json
 
 '''
 Talk to the database 
@@ -82,33 +83,35 @@ Read from database
 gps_obj = cli.get_gps_coordinates()
 gps = gps_obj['gps']
 
+
 for obj in gps : 
 
-    obj_fields = float(obj['fields'])
+    obj_fields = obj['fields']
+    #print(obj_fields['stat_snr'], ", ", obj_fields['telemetry']['latitude'], ", ", obj_fields['telemetry']['longitude'])
     
     # Array for IED SNR Detection anything greater than array1Max - Red 
-    if float(obj_fields['stats_snr']) > array1Max :
-        amplitudeArray1.append(obj_fields['stats_snr'])
-        latitudeArray1.append(obj_fields['telemetry'], ['latitude'])
-        longitudeArray1.append(obj_fields['telemetry'], ['longitude'])
+    if float(obj_fields['stat_snr']) > array1Max :
+        amplitudeArray1.append(obj_fields['stat_snr'])
+        latitudeArray1.append(obj_fields['telemetry']['latitude'])
+        longitudeArray1.append(obj_fields['telemetry']['longitude'])
         
     # Array for IED SNR Detection anything greater than array2Min and less than array2Max - black
-    elif float(obj_fields['stats_snr']) > array2Min and TODO_SNR < array2Max :
-        amplitudeArray2.append(obj_fields['stats_snr'])
-        latitudeArray2.append(obj_fields['telemetry'], ['latitude'])
-        longitudeArray2.append(obj_fields['telemetry'], ['longitude'])
+    elif float(obj_fields['stat_snr']) > array2Min and float(obj_fields['stat_snr']) < array2Max :
+        amplitudeArray2.append(obj_fields['stat_snr'])
+        latitudeArray2.append(obj_fields['telemetry']['latitude'])
+        longitudeArray2.append(obj_fields['telemetry']['longitude'])
         
     # Array for IED SNR Detection anything greater than array3Min and less than array3Max - gray
-    elif float(obj_fields['stats_snr']) > array3Min and TODO_SNR < array3Max :
-        amplitudeArray3.append(obj_fields['stats_snr'])
-        latitudeArray3.append(obj_fields['telemetry'], ['latitude'])
-        longitudeArray3.append(obj_fields['telemetry'], ['longitude'])
+    elif float(obj_fields['stat_snr']) > array3Min and float(obj_fields['stat_snr']) < array3Max :
+        amplitudeArray3.append(obj_fields['stat_snr'])
+        latitudeArray3.append(obj_fields['telemetry']['latitude'])
+        longitudeArray3.append(obj_fields['telemetry']['longitude'])
 
     # Array for IED SNR Detection anything less than array4Min - silver 
-    elif float(obj_fields['stats_snr']) < array4Min :
-        amplitudeArray4.append(obj_fields['stats_snr'])
-        latitudeArray4.append(obj_fields['telemetry'], ['latitude'])
-        longitudeArray4.append(obj_fields['telemetry'], ['longitude'])
+    elif float(obj_fields['stat_snr']) < array4Min :
+        amplitudeArray4.append(obj_fields['stat_snr'])
+        latitudeArray4.append(obj_fields['telemetry']['latitude'])
+        longitudeArray4.append(obj_fields['telemetry']['longitude'])
 			
 #define the symbol to plot (each array can also have their own)
 symbol = ('o')   
@@ -120,7 +123,7 @@ ax.scatter(latitudeArray2, longitudeArray2, amplitudeArray2, c=["black"], marker
 ax.scatter(latitudeArray1, longitudeArray1, amplitudeArray1, c=["red"], marker=symbol)
       
 # pause the plot for a few seconds
-plt.pause(30)	
+plt.pause(3)	
   
 # Show the plot 				
 plt.show()
