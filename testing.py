@@ -22,40 +22,39 @@ For each set of style and range settings, plot n random points in the box
     longitude is the y-axis from range [0, 180] decimal degrees
     amplitude is the z axis from range [0, 10] integer 
 '''
-# Define Arrays from File 
-array1Max = 3.00
-array1Min = 0.00 
+# Config Data for Max/Min SNR Values for each array/color 
+array1Max = 10.00
 
-array2Max = 3.00
-array2Min = 0.00 
+array2Max = 9.99
+array2Min = 8.00 
 
-array3Max = 3.00
-array3Min = 0.00 
+array3Max = 7.99
+array3Min = 6.00 
 
-array4Max = 3.00
-array4Min = 0.00 
+array4Min = 5.99
 
-
+# define the x, y, z axis 
 amplitudeZAxis = []
 latitudeXAxis = []
 longitudeYAxis = []
 
-amplitudeGreaterTen = []
-amplitudeGreaterEight = []
-amplitudeGreaterSix = []
-amplitudeGreaterFour = []
+# define four arrays for each color we plot. 
+amplitudeArray1 = []
+amplitudeArray2 = []
+amplitudeArray3 = []
+amplitudeArray4 = []
 
-latitudeGreaterTen = []
-latitudeGreaterEight = []
-latitudeGreaterSix = []
-latitudeGreaterFour = []
+latitudeArray1 = []
+latitudeArray2 = []
+latitudeArray3 = []
+latitudeArray4 = []
 
-longitudeGreaterTen = []
-longitudeGreaterEight = []
-longitudeGreaterSix = []
-longitudeGreaterFour = []
+longitudeArray1 = []
+longitudeArray2 = []
+longitudeArray3 = []
+longitudeArray4 = []
 
-#ax.scatter(latitudeXAxis, longitudeYAxis, amplitudeGreaterTen, c=color, marker=symbol)
+#ax.scatter(latitudeXAxis, longitudeYAxis, amplitude, c=color, marker=symbol)
 # fig.add_sub_plot(number of rows, number of columns, index of subplot)
 fig = plt.figure(figsize=(10,7))
 ax = fig.add_subplot(111, projection='3d')
@@ -65,59 +64,55 @@ ax.set_xlabel('Latitude')
 ax.set_ylabel('Longitude')
 ax.set_zlabel('Amplitude')
 
-
 # Turn off Scientific Notation
 ax.ticklabel_format(useOffset=False)
 
 '''
-Read from file
+Read from database
 '''
 #TODO OPEN DATABASE AND READ IT.
 
-with open('','r') as csvfile:
-    plots = csv.reader(csvfile, delimiter=',')
+with TODO DATABASE OPEN  
+    plots = HOW EVER MANY NUMBERS ARE CURRENTLY IN DATABASE
 	
-    #define the symbol to plot (each array can also have their own)
-    symbol = ('o')
-    
     #for i in amplitudeZAxis:
-    for row in plots:  
+    for #GPS? in plots:  
      
-        # Array for IED Detection anything greater than 10 - Red 
-        if float(row[0]) > 10.00 :
-            amplitudeGreaterTen.append(float(row[0]))
-            latitudeGreaterTen.append(float(row[1]))
-            longitudeGreaterTen.append(float(row[2]))
-            symbol = ('o')
+        # Array for IED SNR Detection anything greater than array1Max - Red 
+        if TODO_SNR > array1Max :
+            amplitudeArray1.append(float(row[0]))
+            latitudeArray1.append(float(row[1]))
+            longitudeArray1.append(float(row[2]))
             
-        # Array for IED Detection anything greater than 8 and less than 9.99 - black
-        elif float(row[0]) > 8.00 and float(row[0]) < 9.99 :
-            amplitudeGreaterEight.append(float(row[0]))
-            latitudeGreaterEight.append(float(row[1]))
-            longitudeGreaterEight.append(float(row[2]))
+        # Array for IED SNR Detection anything greater than array2Min and less than array2Max - black
+        elif TODO_SNR > array2Min and TODO_SNR < array2Max :
+            amplitudeArray2.append(float(row[0]))
+            latitudeArray2.append(float(row[1]))
+            longitudeArray2.append(float(row[2]))
 			
-        # Array for IED Detection anything greater than 6 and less than 7.99 - gray
-        elif float(row[0]) > 6.00 and float(row[0]) < 7.99 :
-            amplitudeGreaterSix.append(float(row[0]))
-            latitudeGreaterSix.append(float(row[1]))
-            longitudeGreaterSix.append(float(row[2]))
+        # Array for IED SNR Detection anything greater than array3Min and less than array3Max - gray
+        elif TODO_SNR > array3Min and TODO_SNR < array3Max :
+            amplitudeArray3.append(float(row[0]))
+            latitudeArray3.append(float(row[1]))
+            longitudeArray3.append(float(row[2]))
 
-        # Array for IED Detection anything less than 5.99 - silver 
-        elif float(row[0]) < 5.99 :
-            amplitudeGreaterFour.append(float(row[0]))
-            latitudeGreaterFour.append(float(row[1]))
-            longitudeGreaterFour.append(float(row[2]))
-   
+        # Array for IED SNR Detection anything less than array4Min - silver 
+        elif TODO_SNR < array4Min :
+            amplitudeArray4.append(float(row[0]))
+            latitudeArray4.append(float(row[1]))
+            longitudeArray4.append(float(row[2]))
+			
+#define the symbol to plot (each array can also have their own)
+symbol = ('o')   
 
 # Scatter Plot (lat, long, snr, color, symbol) - red, silver, gray and black          
-ax.scatter(latitudeGreaterFour, longitudeGreaterFour, amplitudeGreaterFour, c=["silver"], marker=symbol)
-ax.scatter(latitudeGreaterSix, longitudeGreaterSix, amplitudeGreaterSix, c=["gray"], marker=symbol)
-ax.scatter(latitudeGreaterEight, longitudeGreaterEight, amplitudeGreaterEight, c=["black"], marker=symbol)	
-ax.scatter(latitudeGreaterTen, longitudeGreaterTen, amplitudeGreaterTen, c=["red"], marker=symbol)
+ax.scatter(latitudeArray4, longitudeArray4, amplitudeArray4, c=["silver"], marker=symbol)
+ax.scatter(latitudeArray3, longitudeArray3, amplitudeArray3, c=["gray"], marker=symbol)
+ax.scatter(latitudeArray2, longitudeArray2, amplitudeArray2, c=["black"], marker=symbol)	
+ax.scatter(latitudeArray1, longitudeArray1, amplitudeArray1, c=["red"], marker=symbol)
       
 # pause the plot for a few seconds
-plt.pause(10)
-	  
+plt.pause(30)	  
 # Show the plot 				
 plt.show()
 csvfile.close()
